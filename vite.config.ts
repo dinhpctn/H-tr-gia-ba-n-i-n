@@ -6,8 +6,8 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     
     // Ưu tiên VITE_GEMINI_API_KEY (Vercel), fallback về GEMINI_API_KEY (local)
-    const apiKey = env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY;
-    
+    const apiKey = env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY || '';
+
     return {
       server: {
         port: 3000,
@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       },
       plugins: [react()],
       define: {
-        // Expose API key vào runtime
+        // Expose API key vào runtime; dùng '' làm fallback để tránh undefined tại build-time
         'process.env.API_KEY': JSON.stringify(apiKey),
         'process.env.GEMINI_API_KEY': JSON.stringify(apiKey)
       },
